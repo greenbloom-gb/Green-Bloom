@@ -1,40 +1,16 @@
-export default async function handler(req, res) {
+import { createClient } from '@supabase/supabase-js';
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, error: 'Método não permitido' });
-  }
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido' });
 
   try {
-
     const { id } = req.body;
-
-    if (!id) {
-      return res.status(400).json({ success: false, error: 'ID é obrigatório' });
-    }
-
-    const response = await fetch(
-      `${process.env.SUPABASE_URL}/rest/v1/products?id=eq.${id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          apikey:        process.env.SUPABASE_SERVICE_KEY,
-          Authorization: `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
-          Prefer:        'return=minimal'
-        }
-      }
-    );
-
-    if (!response.ok) {
-      const err = await response.text();
-      return res.status(response.status).json({ success: false, error: err });
-    }
-
-    return res.status(200).json({ success: true });
-
+    const { error } = await supabase.from('products').delete().eq('id', id);
+    if (error) throw error;
+    return res.status(200).json({ message: 'Produto removido!' });
   } catch (error) {
-
-    return res.status(500).json({ success: false, error: error.message });
-
+    return res.status(500).json({ error: error.message });
   }
-
 }
