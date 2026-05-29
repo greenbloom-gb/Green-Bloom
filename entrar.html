@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login • Green Bloom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { background: #FAF9F6; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+    .login-card { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(27,48,34,0.1); width: 100%; max-width: 350px; text-align: center; }
+    .logo { font-size: 28px; font-weight: 800; color: #1B3022; margin-bottom: 10px; }
+    p { color: #8DAA91; font-size: 14px; margin-bottom: 30px; }
+    input { width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #E9EDEA; margin-bottom: 20px; box-sizing: border-box; outline: none; }
+    button { width: 100%; padding: 14px; border-radius: 12px; border: none; background: #2D5A27; color: white; font-weight: 700; cursor: pointer; }
+    .error { color: #9E2A2B; font-size: 13px; margin-top: 10px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="logo">🌿 Green Bloom</div>
+    <p>Acesso Restrito ao Painel</p>
+    <input type="password" id="pass" placeholder="Digite a senha mestra">
+    <button onclick="login()">Entrar</button>
+    <div id="errMsg" class="error">Senha inválida!</div>
+  </div>
+
+  <script>
+    async function login() {
+      const pass = document.getElementById('pass').value;
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pass })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('gb_token', data.token);
+        window.location.href = '/painel.html';
+      } else {
+        document.getElementById('errMsg').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
