@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Green Bloom • Gestor de Catálogo</title>
-  <link rel="icon" type="image/png" href="/favicon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
@@ -34,12 +33,6 @@
       box-shadow: 0 10px 30px rgba(27, 48, 34, 0.15);
     }
     .header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-    .logout-btn {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white; padding: 8px 16px; border-radius: 12px;
-      cursor: pointer; font-size: 12px; font-weight: 700;
-    }
 
     .card {
       background: var(--gb-white);
@@ -72,9 +65,9 @@
     }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-    .p-card { background: white; border-radius: 20px; padding: 10px; border: 1px solid #F0F4F1; transition: 0.3s; }
+    .p-card { background: white; border-radius: 20px; padding: 10px; border: 1px solid #F0F4F1; }
     .p-card img { width: 100%; height: 110px; object-fit: contain; border-radius: 12px; background: #F9FBF9; }
-    .p-info h3 { font-size: 13px; font-weight: 800; margin-top: 8px; color: var(--gb-deep); }
+    .p-info h3 { font-size: 13px; font-weight: 800; margin-top: 8px; color: var(--gb-deep); text-align: center; }
     
     .status { padding: 12px; border-radius: 12px; text-align: center; display: none; margin-top: 10px; font-size: 13px; font-weight: 700; }
     .success { background: #E8F5E9; color: #2E7D32; }
@@ -88,24 +81,24 @@
       <h1>Green Bloom</h1>
       <p>Gestão de Produtos</p>
     </div>
-    <button class="logout-btn" onclick="logout()">Sair</button>
+    <button style="background:rgba(255,255,255,0.1); border:none; color:white; padding:8px 15px; border-radius:10px; cursor:pointer;" onclick="location.reload()">Atualizar</button>
   </header>
 
   <section class="card">
     <h2 class="card-title" id="formTitle">🌿 Novo Produto</h2>
     <form id="productForm">
-      <div class="img-preview" id="pBox"><span id="pTxt">Preview</span><img id="pImg"></div>
+      <div class="img-preview" id="pBox"><span id="pTxt">Preview da Imagem</span><img id="pImg"></div>
       
       <div class="row">
-        <div class="field"><label>Nome</label><input type="text" id="name" required></div>
+        <div class="field"><label>Nome do Produto</label><input type="text" id="name" required></div>
         <div class="field"><label>Categoria</label><input type="text" id="category"></div>
       </div>
 
       <div class="field"><label>URL da Imagem</label><input type="url" id="image" required oninput="handlePreview(this.value, 'pImg', 'pTxt')"></div>
-      <div class="field"><label>Descrição</label><textarea id="description" rows="2"></textarea></div>
+      <div class="field"><label>Descrição Curta</label><textarea id="description" rows="2"></textarea></div>
 
       <div class="field">
-        <label>Badge</label>
+        <label>Badge (Etiqueta)</label>
         <select id="badge">
           <option value="">Nenhum</option>
           <option value="🌿 Orgânico">🌿 Orgânico</option>
@@ -116,12 +109,12 @@
       </div>
 
       <div class="row">
-        <div class="field"><label>🛍️ Shopee</label><input type="url" id="shopee_link"></div>
-        <div class="field"><label>🛒 Mercado Livre</label><input type="url" id="mercadolivre_link"></div>
+        <div class="field"><label>🛍️ Link Shopee</label><input type="url" id="shopee_link"></div>
+        <div class="field"><label>🛒 Link Mercado Livre</label><input type="url" id="mercadolivre_link"></div>
       </div>
       <div class="row">
-        <div class="field"><label>📦 Amazon</label><input type="url" id="amazon_link"></div>
-        <div class="field"><label>🎵 TikTok</label><input type="url" id="tiktok_link"></div>
+        <div class="field"><label>📦 Link Amazon</label><input type="url" id="amazon_link"></div>
+        <div class="field"><label>🎵 Link TikTok Shop</label><input type="url" id="tiktok_link"></div>
       </div>
 
       <button type="submit" class="btn-save" id="saveBtn">Cadastrar Produto</button>
@@ -131,7 +124,7 @@
   </section>
 
   <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center;">
-    <h2 style="font-weight:800; color:var(--gb-deep)">Estoque Digital</h2>
+    <h2 style="font-weight:800; color:var(--gb-deep)">Produtos no Banco</h2>
     <span id="counter" style="background:var(--gb-accent); padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700;">0 itens</span>
   </div>
 
@@ -145,11 +138,12 @@
     function handlePreview(url, imgId, txtId) {
       const img = document.getElementById(imgId);
       const txt = document.getElementById(txtId);
-      if(url && url.startsWith('http')) { img.src = url; img.style.display = 'block'; txt.style.display = 'none'; }
-      else { img.style.display = 'none'; txt.style.display = 'block'; }
+      if(url && url.length > 10) { 
+        img.src = url; img.style.display = 'block'; txt.style.display = 'none'; 
+      } else { 
+        img.style.display = 'none'; txt.style.display = 'block'; 
+      }
     }
-
-    function logout() { localStorage.removeItem('adminAuth'); window.location.href = '/entrar.html'; }
 
     async function load() {
       try {
@@ -162,14 +156,15 @@
     function renderGrid() {
       const grid = document.getElementById('grid');
       document.getElementById('counter').innerText = `${allProducts.length} itens`;
+      
       grid.innerHTML = allProducts.map(p => `
         <div class="p-card">
-          <img src="${p.image}">
+          <img src="${p.image || ''}" onerror="this.src='https://placehold.co/200x200?text=Sem+Imagem'">
           <div class="p-info">
             <h3>${p.name}</h3>
             <div style="display:flex; gap:5px; margin-top:8px;">
-              <button onclick='prepararEdicao("${p.id}")' style="flex:1; padding:6px; border:none; border-radius:8px; background:#F0F4F1; font-size:10px; font-weight:700; cursor:pointer;">Editar</button>
-              <button onclick="deleteP('${p.id}')" style="padding:6px; border:none; border-radius:8px; background:#FFF0F0; color:var(--gb-error); font-size:10px; font-weight:700; cursor:pointer;">Excluir</button>
+              <button onclick="prepararEdicao('${p.id}')" style="flex:1; padding:7px; border:none; border-radius:8px; background:#F0F4F1; font-size:10px; font-weight:700; cursor:pointer;">Editar</button>
+              <button onclick="deleteP('${p.id}')" style="padding:7px; border:none; border-radius:8px; background:#FFF0F0; color:var(--gb-error); font-size:10px; font-weight:700; cursor:pointer;">Excluir</button>
             </div>
           </div>
         </div>
@@ -177,12 +172,13 @@
     }
 
     function prepararEdicao(id) {
-      const p = allProducts.find(item => item.id === id);
+      const p = allProducts.find(item => String(item.id) === String(id));
       if(!p) return;
 
       editMode = true;
       currentEditId = id;
-      document.getElementById('formTitle').innerText = "✏️ Editando Produto";
+      
+      document.getElementById('formTitle').innerText = "✏️ Editando: " + p.name;
       document.getElementById('saveBtn').innerText = "Salvar Alterações";
       document.getElementById('cancelBtn').style.display = "block";
 
@@ -236,15 +232,18 @@
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(payload)
         });
+        
         if(r.ok) {
           status.innerText = editMode ? "✅ Produto atualizado!" : "✅ Produto cadastrado!";
           status.className = "status success";
           status.style.display = "block";
           resetForm();
-          load();
+          await load();
+        } else {
+          throw new Error();
         }
       } catch (err) {
-        status.innerText = "❌ Erro na conexão.";
+        status.innerText = "❌ Erro ao salvar dados.";
         status.className = "status error";
         status.style.display = "block";
       } finally {
@@ -254,15 +253,18 @@
     };
 
     async function deleteP(id) {
-      if(!confirm('Deseja excluir permanentemente?')) return;
-      await fetch('/api/delete-product', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({id})
-      });
-      load();
+      if(!confirm('Deseja excluir este produto permanentemente?')) return;
+      try {
+        await fetch('/api/delete-product', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({id})
+        });
+        await load();
+      } catch(e) { alert("Erro ao excluir"); }
     }
 
+    // Iniciar carregamento
     load();
   </script>
 </body>
