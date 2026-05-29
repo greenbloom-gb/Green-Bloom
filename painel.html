@@ -9,12 +9,11 @@
 
   <style>
     :root {
-      /* Palette Green Bloom - Sofisticada e Natural */
-      --gb-deep: #1B3022;      /* Verde Profundo */
-      --gb-leaf: #2D5A27;      /* Verde Folha */
-      --gb-sage: #8DAA91;      /* Verde Sálvia */
-      --gb-cream: #FAF9F6;     /* Fundo Creme */
-      --gb-accent: #C5D1C3;    /* Detalhes */
+      --gb-deep: #1B3022;
+      --gb-leaf: #2D5A27;
+      --gb-sage: #8DAA91;
+      --gb-cream: #FAF9F6;
+      --gb-accent: #C5D1C3;
       --gb-white: #FFFFFF;
       --gb-text: #2C332E;
       --gb-error: #9E2A2B;
@@ -23,7 +22,6 @@
     * { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
     body { background: var(--gb-cream); color: var(--gb-text); padding: 20px 16px 80px; }
 
-    /* ── HEADER ── */
     .header {
       background: var(--gb-deep);
       padding: 24px;
@@ -36,16 +34,13 @@
       box-shadow: 0 10px 30px rgba(27, 48, 34, 0.15);
     }
     .header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-    .header p { font-size: 13px; opacity: 0.8; }
     .logout-btn {
       background: rgba(255,255,255,0.1);
       border: 1px solid rgba(255,255,255,0.2);
       color: white; padding: 8px 16px; border-radius: 12px;
-      cursor: pointer; font-size: 12px; font-weight: 700; transition: 0.3s;
+      cursor: pointer; font-size: 12px; font-weight: 700;
     }
-    .logout-btn:hover { background: white; color: var(--gb-deep); }
 
-    /* ── CARDS ── */
     .card {
       background: var(--gb-white);
       border-radius: 24px;
@@ -55,7 +50,6 @@
     }
     .card-title { font-size: 18px; font-weight: 800; color: var(--gb-deep); margin-bottom: 18px; }
 
-    /* ── FORM ── */
     .field { margin-bottom: 14px; }
     .field label { display: block; margin-bottom: 5px; font-size: 12px; font-weight: 700; color: var(--gb-leaf); }
     .field input, .field textarea, .field select {
@@ -65,7 +59,6 @@
     .field input:focus { border-color: var(--gb-leaf); outline: none; background: white; }
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-    /* ── PREVIEW ── */
     .img-preview {
       width: 100%; height: 140px; background: #F0F4F1; border: 2px dashed var(--gb-accent);
       border-radius: 16px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden;
@@ -77,25 +70,15 @@
       padding: 16px; border-radius: 14px; font-size: 15px; font-weight: 800;
       cursor: pointer; transition: 0.3s; margin-top: 10px;
     }
-    .btn-save:hover { background: var(--gb-deep); transform: translateY(-2px); }
 
-    /* ── GRID ── */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
     .p-card { background: white; border-radius: 20px; padding: 10px; border: 1px solid #F0F4F1; transition: 0.3s; }
     .p-card img { width: 100%; height: 110px; object-fit: contain; border-radius: 12px; background: #F9FBF9; }
     .p-info h3 { font-size: 13px; font-weight: 800; margin-top: 8px; color: var(--gb-deep); }
-    .p-links-count { font-size: 10px; color: var(--gb-sage); font-weight: 600; }
     
     .status { padding: 12px; border-radius: 12px; text-align: center; display: none; margin-top: 10px; font-size: 13px; font-weight: 700; }
     .success { background: #E8F5E9; color: #2E7D32; }
     .error { background: #FFEBEE; color: #C62828; }
-
-    /* ── MODAL ── */
-    .modal {
-      position: fixed; inset: 0; background: rgba(27, 48, 34, 0.7);
-      backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 999; padding: 20px;
-    }
-    .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 24px; max-height: 90vh; overflow-y: auto; }
   </style>
 </head>
 <body>
@@ -103,13 +86,13 @@
   <header class="header">
     <div>
       <h1>Green Bloom</h1>
-      <p>Gestão de Produtos e Links</p>
+      <p>Gestão de Produtos</p>
     </div>
     <button class="logout-btn" onclick="logout()">Sair</button>
   </header>
 
   <section class="card">
-    <h2 class="card-title">🌿 Novo Produto</h2>
+    <h2 class="card-title" id="formTitle">🌿 Novo Produto</h2>
     <form id="productForm">
       <div class="img-preview" id="pBox"><span id="pTxt">Preview</span><img id="pImg"></div>
       
@@ -128,6 +111,7 @@
           <option value="🌿 Orgânico">🌿 Orgânico</option>
           <option value="⭐ Destaque">⭐ Destaque</option>
           <option value="✨ Novidade">✨ Novidade</option>
+          <option value="🔥 Mais Vendido">🔥 Mais Vendido</option>
         </select>
       </div>
 
@@ -141,6 +125,7 @@
       </div>
 
       <button type="submit" class="btn-save" id="saveBtn">Cadastrar Produto</button>
+      <button type="button" id="cancelBtn" style="display:none; width:100%; background:transparent; border:none; color:var(--gb-sage); margin-top:10px; cursor:pointer; font-weight:700;" onclick="resetForm()">Cancelar Edição</button>
       <div id="status" class="status"></div>
     </form>
   </section>
@@ -153,20 +138,28 @@
   <div class="grid" id="grid"></div>
 
   <script>
+    let allProducts = [];
+    let editMode = false;
+    let currentEditId = null;
+
     function handlePreview(url, imgId, txtId) {
       const img = document.getElementById(imgId);
       const txt = document.getElementById(txtId);
-      if(url) { img.src = url; img.style.display = 'block'; txt.style.display = 'none'; }
+      if(url && url.startsWith('http')) { img.src = url; img.style.display = 'block'; txt.style.display = 'none'; }
       else { img.style.display = 'none'; txt.style.display = 'block'; }
     }
 
     function logout() { localStorage.removeItem('adminAuth'); window.location.href = '/entrar.html'; }
 
-    let allProducts = [];
-
     async function load() {
-      const res = await fetch('/api/products');
-      allProducts = await res.json();
+      try {
+        const res = await fetch('/api/products');
+        allProducts = await res.json();
+        renderGrid();
+      } catch (err) { console.error("Erro ao carregar", err); }
+    }
+
+    function renderGrid() {
       const grid = document.getElementById('grid');
       document.getElementById('counter').innerText = `${allProducts.length} itens`;
       grid.innerHTML = allProducts.map(p => `
@@ -175,11 +168,46 @@
           <div class="p-info">
             <h3>${p.name}</h3>
             <div style="display:flex; gap:5px; margin-top:8px;">
-              <button onclick="deleteP('${p.id}')" style="flex:1; padding:6px; border:none; border-radius:8px; background:#FFF0F0; color:var(--gb-error); font-size:10px; font-weight:700; cursor:pointer;">Excluir</button>
+              <button onclick='prepararEdicao("${p.id}")' style="flex:1; padding:6px; border:none; border-radius:8px; background:#F0F4F1; font-size:10px; font-weight:700; cursor:pointer;">Editar</button>
+              <button onclick="deleteP('${p.id}')" style="padding:6px; border:none; border-radius:8px; background:#FFF0F0; color:var(--gb-error); font-size:10px; font-weight:700; cursor:pointer;">Excluir</button>
             </div>
           </div>
         </div>
       `).join('');
+    }
+
+    function prepararEdicao(id) {
+      const p = allProducts.find(item => item.id === id);
+      if(!p) return;
+
+      editMode = true;
+      currentEditId = id;
+      document.getElementById('formTitle').innerText = "✏️ Editando Produto";
+      document.getElementById('saveBtn').innerText = "Salvar Alterações";
+      document.getElementById('cancelBtn').style.display = "block";
+
+      document.getElementById('name').value = p.name || '';
+      document.getElementById('category').value = p.category || '';
+      document.getElementById('image').value = p.image || '';
+      document.getElementById('description').value = p.description || '';
+      document.getElementById('badge').value = p.badge || '';
+      document.getElementById('shopee_link').value = p.shopee_link || '';
+      document.getElementById('mercadolivre_link').value = p.mercadolivre_link || '';
+      document.getElementById('amazon_link').value = p.amazon_link || '';
+      document.getElementById('tiktok_link').value = p.tiktok_link || '';
+      
+      handlePreview(p.image, 'pImg', 'pTxt');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      editMode = false;
+      currentEditId = null;
+      document.getElementById('productForm').reset();
+      document.getElementById('formTitle').innerText = "🌿 Novo Produto";
+      document.getElementById('saveBtn').innerText = "Cadastrar Produto";
+      document.getElementById('cancelBtn').style.display = "none";
+      handlePreview('', 'pImg', 'pTxt');
     }
 
     document.getElementById('productForm').onsubmit = async (e) => {
@@ -200,6 +228,8 @@
         tiktok_link: document.getElementById('tiktok_link').value
       };
 
+      if(editMode) payload.id = currentEditId;
+
       try {
         const r = await fetch('/api/update-products', {
           method: 'POST',
@@ -207,25 +237,24 @@
           body: JSON.stringify(payload)
         });
         if(r.ok) {
-          status.innerText = "✅ Salvo com sucesso!";
+          status.innerText = editMode ? "✅ Produto atualizado!" : "✅ Produto cadastrado!";
           status.className = "status success";
           status.style.display = "block";
-          document.getElementById('productForm').reset();
-          handlePreview('', 'pImg', 'pTxt');
+          resetForm();
           load();
         }
       } catch (err) {
-        status.innerText = "❌ Erro ao salvar.";
+        status.innerText = "❌ Erro na conexão.";
         status.className = "status error";
         status.style.display = "block";
       } finally {
-        btn.innerText = 'Cadastrar Produto';
+        btn.innerText = editMode ? 'Salvar Alterações' : 'Cadastrar Produto';
         setTimeout(() => status.style.display = 'none', 3000);
       }
     };
 
     async function deleteP(id) {
-      if(!confirm('Remover produto?')) return;
+      if(!confirm('Deseja excluir permanentemente?')) return;
       await fetch('/api/delete-product', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
