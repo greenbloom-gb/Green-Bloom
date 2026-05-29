@@ -822,7 +822,8 @@
     /* ── RENDER ── */
     function render(items) {
       const el = document.getElementById('productsCount');
-      el.innerHTML = `<span>${items.length}</span> item${items.length !== 1 ? 's' : ''}`;
+    
+el.innerHTML = `<span>${items.length}</span> ${items.length === 1 ? 'item' : 'itens'}`;
 
       const container = document.getElementById('products');
 
