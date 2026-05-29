@@ -72,6 +72,19 @@
     .status { padding: 12px; border-radius: 12px; text-align: center; display: none; margin-top: 10px; font-size: 13px; font-weight: 700; }
     .success { background: #E8F5E9; color: #2E7D32; }
     .error { background: #FFEBEE; color: #C62828; }
+    
+    .logout-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .logout-btn:hover { background: white; color: var(--gb-deep); }
   </style>
 </head>
 <body>
@@ -81,7 +94,7 @@
       <h1>Green Bloom</h1>
       <p>Gestão de Produtos</p>
     </div>
-    <button style="background:rgba(255,255,255,0.1); border:none; color:white; padding:8px 15px; border-radius:10px; cursor:pointer;" onclick="location.reload()">Atualizar</button>
+    <button class="logout-btn" onclick="logout()">Sair</button>
   </header>
 
   <section class="card">
@@ -131,6 +144,20 @@
   <div class="grid" id="grid"></div>
 
   <script>
+    /* ─── TRAVA DE SEGURANÇA ─── */
+    (function() {
+      const token = localStorage.getItem('gb_token');
+      if (token !== 'gb_authenticated_access_2026') {
+        window.location.href = '/entrar.html';
+      }
+    })();
+
+    function logout() {
+      localStorage.removeItem('gb_token');
+      window.location.href = '/entrar.html';
+    }
+
+    /* ─── LÓGICA DO PAINEL ─── */
     let allProducts = [];
     let editMode = false;
     let currentEditId = null;
@@ -239,9 +266,7 @@
           status.style.display = "block";
           resetForm();
           await load();
-        } else {
-          throw new Error();
-        }
+        } else { throw new Error(); }
       } catch (err) {
         status.innerText = "❌ Erro ao salvar dados.";
         status.className = "status error";
@@ -264,7 +289,6 @@
       } catch(e) { alert("Erro ao excluir"); }
     }
 
-    // Iniciar carregamento
     load();
   </script>
 </body>
