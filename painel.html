@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Green Bloom • Painel Administrativo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <title>Painel • Green Bloom</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      /* Palette Green Bloom exata */
+      /* Palette Green Bloom */
       --gb-floresta: #4A6741;
       --gb-salvia: #7A9E7E;
       --gb-menta: #D6E8D4;
@@ -18,254 +19,564 @@
       --gb-creme: #FAF6F1;
       --gb-grafite: #2C2C2C;
       --gb-cinza: #6B6B6B;
+      --gb-white: #FFFFFF;
+      --danger: #E53935;
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    
-    body { 
-      background: var(--gb-creme); 
-      color: var(--gb-grafite); 
-      font-family: 'DM Sans', sans-serif; 
-      padding: 20px 16px 80px; 
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'DM Sans', sans-serif; }
 
-    /* Cabeçalho com contraste corrigido */
-    .header {
+    body { background: var(--gb-creme); color: var(--gb-grafite); padding: 20px 16px 80px; }
+
+    /* ── HERO ── */
+    .hero {
       background: linear-gradient(135deg, var(--gb-floresta), var(--gb-salvia));
       padding: 30px 24px;
       border-radius: 32px;
-      color: #FFFFFF;
+      color: white;
+      box-shadow: 0 12px 35px rgba(74, 103, 65, 0.2);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 30px;
-      box-shadow: 0 12px 35px rgba(74, 103, 65, 0.2);
+      gap: 14px;
+      margin-bottom: 24px;
     }
-    .header h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: #FFFFFF !important; }
-    .header p { font-size: 13px; opacity: 0.9; color: #FFFFFF !important; }
-
+    .hero-left { display: flex; align-items: center; gap: 12px; }
+    .hero-icon {
+      width: 46px; height: 46px;
+      background: rgba(255,255,255,.15);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; line-height: 1.1; }
+    .hero p { font-size: 13px; opacity: .85; margin-top: 4px; font-weight: 300; }
+    
     .logout-btn {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #FFFFFF; padding: 10px 20px; border-radius: 14px;
-      cursor: pointer; font-size: 12px; font-weight: 700;
+      border: 1px solid rgba(255,255,255,.3);
+      background: rgba(255,255,255,.15);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: .2s;
     }
+    .logout-btn:hover { background: var(--gb-white); color: var(--gb-floresta); }
 
-    .card {
-      background: #FFFFFF;
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--gb-white);
       border-radius: 28px;
-      padding: 28px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.03);
-      margin-bottom: 30px;
+      padding: 24px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.03);
       border: 1px solid rgba(168, 89, 112, 0.15);
+      margin-bottom: 30px;
     }
-    .card-title { 
-      font-family: 'Cormorant Garamond', serif; 
-      font-size: 26px; 
-      color: var(--gb-floresta); 
-      margin-bottom: 22px;
-      font-style: italic;
-    }
+    .form-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: var(--gb-floresta); margin-bottom: 20px; }
 
-    /* Labels e Inputs com cores visíveis */
-    .field { margin-bottom: 18px; }
-    .field label { display: block; margin-bottom: 8px; font-size: 11px; font-weight: 700; color: var(--gb-grafite); text-transform: uppercase; letter-spacing: 1px; }
+    /* ── PREVIEW ── */
+    .preview-box {
+      width: 100%;
+      height: 140px;
+      background: var(--gb-palido);
+      border-radius: 20px;
+      border: 2px dashed var(--gb-bloom);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      transition: border-color .3s;
+    }
+    .preview-box.loaded { border-style: solid; }
+    .preview-box.error { border-color: #FFCDD2; }
+    .preview-empty {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 6px; color: var(--gb-petala); font-size: 13px; font-weight: 700;
+    }
+    .preview-empty span { font-size: 28px; }
+    #preview { width: 100%; height: 100%; object-fit: contain; display: none; }
+
+    /* ── FIELDS ── */
+    .field { margin-bottom: 14px; }
+    .field label { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 700; color: var(--gb-grafite); text-transform: uppercase; letter-spacing: 1px; }
     .field input, .field textarea, .field select {
-      width: 100%; border: 1.5px solid var(--gb-menta); background: var(--gb-creme);
-      border-radius: 14px; padding: 14px; font-size: 14px; color: var(--gb-grafite) !important; transition: 0.3s;
+      width: 100%;
+      border: 1.5px solid var(--gb-menta);
+      outline: none;
+      background: var(--gb-creme);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+      color: var(--gb-grafite);
+      transition: .3s;
     }
-    .field input::placeholder { color: var(--gb-cinza); opacity: 0.6; }
-
-    /* Área de Preview */
-    .img-preview {
-      width: 100%; height: 160px; background: var(--gb-palido); border: 2px dashed var(--gb-bloom);
-      border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    .field input::placeholder, .field textarea::placeholder { color: var(--gb-cinza); opacity: 0.6; }
+    .field textarea { resize: none; min-height: 80px; }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: var(--gb-bloom); background: var(--gb-white);
     }
-    #pImg { max-height: 100%; max-width: 100%; object-fit: contain; display: none; }
+    .fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-    .btn-save {
-      width: 100%; 
+    .submit-btn {
+      width: 100%; border: none;
       background: linear-gradient(135deg, var(--gb-petala), var(--gb-bloom));
-      color: #FFFFFF; border: none;
-      padding: 18px; border-radius: 16px; font-size: 15px; font-weight: 700;
-      cursor: pointer; box-shadow: 0 6px 20px rgba(168, 89, 112, 0.25);
+      color: white; padding: 16px;
+      border-radius: 16px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: .3s; margin-top: 10px;
+      box-shadow: 0 6px 20px rgba(168, 89, 112, 0.25);
+    }
+    .submit-btn:hover { transform: translateY(-2px); }
+    .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    .status {
+      margin-top: 14px; padding: 12px; border-radius: 12px;
+      font-size: 13px; font-weight: 700; display: none; text-align: center;
+    }
+    .success { background: var(--gb-menta); color: var(--gb-floresta); }
+    .error { background: var(--gb-palido); color: var(--gb-petala); }
+
+    /* ── HEADER PRODUTOS ── */
+    .products-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; gap: 10px; flex-wrap: wrap; padding: 0 5px;
+    }
+    .products-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--gb-floresta); }
+    .products-count {
+      background: var(--gb-menta); color: var(--gb-floresta);
+      font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 99px;
     }
 
-    /* Grid de produtos ativos */
-    .p-card { background: #FFFFFF; border-radius: 24px; padding: 12px; border: 1px solid var(--gb-menta); margin-bottom: 15px; }
-    .p-info h3 { font-size: 14px; font-weight: 700; margin-top: 10px; color: var(--gb-floresta); text-align: center; }
+    /* ── BUSCA ── */
+    .search-box { position: relative; margin-bottom: 16px; }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 16px; opacity: .5; }
+    .search-input {
+      width: 100%; border: 1.5px solid var(--gb-menta); outline: none;
+      background: white; border-radius: 16px;
+      padding: 14px 14px 14px 44px;
+      font-size: 14px; color: var(--gb-grafite);
+      box-shadow: 0 4px 15px rgba(0,0,0,.03);
+      transition: .3s;
+    }
+    .search-input:focus { border-color: var(--gb-bloom); }
+
+    /* ── CATEGORIAS ── */
+    .categories {
+      display: flex; gap: 8px; overflow-x: auto;
+      padding-bottom: 10px; margin-bottom: 14px; scrollbar-width: none;
+    }
+    .categories::-webkit-scrollbar { display: none; }
+    .categories button {
+      border: 1px solid var(--gb-menta); background: white; color: var(--gb-grafite);
+      padding: 8px 16px; border-radius: 99px; font-size: 12px;
+      font-weight: 600; cursor: pointer; white-space: nowrap;
+      transition: .2s;
+    }
+    .categories button.active { background: var(--gb-floresta); color: white; border-color: var(--gb-floresta); }
+
+    /* ── GRID ── */
+    .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+    /* ── CARD ── */
+    .product-card {
+      background: white; border-radius: 20px; overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0,0,0,.04);
+      display: flex; flex-direction: column;
+      border: 1px solid var(--gb-menta);
+    }
+    .product-image {
+      background: var(--gb-creme); padding: 12px;
+      position: relative; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .product-image img { width: 100%; height: 110px; object-fit: contain; display: block; border-radius: 10px;}
+    .badge {
+      position: absolute; top: 8px; left: 8px;
+      background: var(--gb-petala); color: white;
+      padding: 4px 10px; border-radius: 99px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+    }
+    .product-content { padding: 12px; display: flex; flex-direction: column; flex: 1; text-align: center; }
+    
+    .product-name { font-size: 14px; font-weight: 700; line-height: 1.25; color: var(--gb-floresta); }
+    
+    .actions { margin-top: auto; padding-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .edit-btn, .delete-btn {
+      border: none; padding: 8px 4px; border-radius: 10px;
+      font-size: 11px; font-weight: 700; cursor: pointer; transition: .2s;
+    }
+    .edit-btn { background: var(--gb-menta); color: var(--gb-floresta); }
+    .delete-btn { background: var(--gb-palido); color: var(--gb-petala); }
+
+    /* ── EMPTY ── */
+    .empty-state {
+      grid-column: 1/-1; text-align: center;
+      padding: 40px 20px; color: var(--gb-cinza);
+    }
+
+    /* ════════════════════════════════
+       MODAL DE EDIÇÃO
+    ════════════════════════════════ */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(44, 44, 44, .6);
+      backdrop-filter: blur(5px);
+      z-index: 100;
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+    .modal {
+      background: var(--gb-white);
+      width: 100%; max-width: 520px;
+      border-radius: 32px 32px 0 0;
+      padding: 24px 24px 36px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform .35s cubic-bezier(.22,1,.36,1);
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    .modal-handle {
+      width: 45px; height: 5px;
+      background: #E0E0E0; border-radius: 4px;
+      margin: 0 auto 24px;
+    }
+
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: var(--gb-floresta); }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: none; background: var(--gb-creme); cursor: pointer;
+      font-size: 16px; display: flex; align-items: center; justify-content: center;
+      transition: .2s; color: var(--gb-grafite);
+    }
+    
+    .modal-preview-box {
+      width: 100%; height: 130px;
+      background: var(--gb-palido); border-radius: 20px;
+      border: 2px dashed var(--gb-bloom);
+      overflow: hidden; display: flex;
+      align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    #modalPreview { width: 100%; height: 100%; object-fit: contain; display: none; }
+    .modal-preview-empty {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; color: var(--gb-petala); font-size: 13px; font-weight: 700;
+    }
+
+    .save-btn {
+      width: 100%; border: none;
+      background: linear-gradient(135deg, var(--gb-petala), var(--gb-bloom));
+      color: white; padding: 16px;
+      border-radius: 16px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: .3s; box-shadow: 0 6px 20px rgba(168, 89, 112, 0.25);
+      margin-top: 10px;
+    }
   </style>
 </head>
+
 <body>
 
-  <header class="header">
-    <div>
-      <h1>Green Bloom</h1>
-      <p>Essência da Mulher • Gestão</p>
-    </div>
-    <button class="logout-btn" onclick="logout()">Sair</button>
-  </header>
-
-  <section class="card">
-    <h2 class="card-title" id="formTitle">Novo Conteúdo</h2>
-    <form id="productForm">
-      <div class="img-preview" id="pBox">
-        <span id="pTxt" style="color: var(--gb-petala); font-weight: 600;">Preview do Produto</span>
-        <img id="pImg">
-      </div>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-        <div class="field"><label>Nome</label><input type="text" id="name" required placeholder="Ex: Óleo Essencial"></div>
-        <div class="field"><label>Categoria</label><input type="text" id="category" placeholder="Ex: Autocuidado"></div>
-      </div>
-
-      <div class="field"><label>URL da Imagem</label><input type="url" id="image" required placeholder="https://..." oninput="handlePreview(this.value)"></div>
-      <div class="field"><label>Descrição</label><textarea id="description" rows="2" placeholder="Breve detalhe sobre o item..."></textarea></div>
-
-      <div class="field">
-        <label>Badge de Destaque</label>
-        <select id="badge">
-          <option value="">Nenhuma</option>
-          <option value="🌿 Orgânico">🌿 Orgânico</option>
-          <option value="⭐ Destaque">⭐ Destaque</option>
-          <option value="✨ Novidade">✨ Novidade</option>
-          <option value="🔥 Mais Vendido">🔥 Mais Vendido</option>
-        </select>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-        <div class="field"><label>🛍️ Shopee</label><input type="url" id="shopee_link"></div>
-        <div class="field"><label>🛒 Mercado Livre</label><input type="url" id="mercadolivre_link"></div>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-        <div class="field"><label>📦 Amazon</label><input type="url" id="amazon_link"></div>
-        <div class="field"><label>🎵 TikTok Shop</label><input type="url" id="tiktok_link"></div>
-      </div>
-
-      <button type="submit" class="btn-save" id="saveBtn">Publicar Conteúdo</button>
-      <button type="button" id="cancelBtn" style="display:none; background:none; border:none; color:var(--gb-petala); width:100%; margin-top:10px; cursor:pointer; font-weight:700;" onclick="resetForm()">Cancelar Edição</button>
-    </form>
-  </section>
-
-  <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--gb-floresta); margin-bottom: 15px; padding-left: 10px;">Conteúdos Ativos</h2>
-  <div id="grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px;"></div>
-
   <script>
-    /* Segurança */
     (function() {
       if (localStorage.getItem('gb_token') !== 'gb_authenticated_access_2026') {
         window.location.href = '/entrar.html';
       }
     })();
+  </script>
 
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-icon">🌿</div>
+      <div>
+        <h1>Green Bloom</h1>
+        <p>Gestão de Catálogo</p>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="logout()">Sair</button>
+  </section>
+
+  <section class="form-card">
+    <h2 class="form-title">Adicionar Conteúdo</h2>
+
+    <form id="productForm">
+      <div class="preview-box" id="previewBox">
+        <div class="preview-empty" id="previewEmpty">Preview da imagem</div>
+        <img id="preview" src="" alt="preview" />
+      </div>
+
+      <div class="fields-row">
+        <div class="field"><label>Nome</label><input type="text" id="name" placeholder="Ex: Óleo Essencial" required /></div>
+        <div class="field"><label>Categoria</label><input type="text" id="category" placeholder="Ex: Autocuidado" /></div>
+      </div>
+
+      <div class="field"><label>URL da imagem</label><input type="url" id="image" placeholder="https://..." required oninput="prevImg(this.value)" /></div>
+      <div class="field"><label>Descrição</label><textarea id="description" placeholder="Detalhes..."></textarea></div>
+
+      <div class="field">
+        <label>Badge</label>
+        <select id="badge">
+          <option value="">Nenhum</option>
+          <option>🌿 Orgânico</option>
+          <option>⭐ Destaque</option>
+          <option>✨ Novidade</option>
+          <option>🔥 Mais Vendido</option>
+        </select>
+      </div>
+
+      <div class="fields-row">
+        <div class="field"><label>🛍️ Shopee</label><input type="url" id="shopee_link" /></div>
+        <div class="field"><label>🛒 Mercado Livre</label><input type="url" id="mercadolivre_link" /></div>
+      </div>
+      <div class="fields-row">
+        <div class="field"><label>📦 Amazon</label><input type="url" id="amazon_link" /></div>
+        <div class="field"><label>🎵 TikTok</label><input type="url" id="tiktok_link" /></div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Publicar Conteúdo</button>
+      <div id="status" class="status"></div>
+    </form>
+  </section>
+
+  <div class="products-header">
+    <h2 class="products-title">Conteúdos Ativos</h2>
+    <span id="productsCount" class="products-count">0 itens</span>
+  </div>
+
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Buscar no catálogo..." oninput="buscarProdutos()" />
+  </div>
+
+  <div id="categories" class="categories"></div>
+  <div id="productsGrid" class="products-grid"></div>
+
+  <div class="modal-overlay" id="modalOverlay" onclick="fecharModalClick(event)">
+    <div class="modal" id="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2 class="modal-title">Editando Conteúdo</h2>
+        <button class="modal-close" onclick="fecharModal()">✕</button>
+      </div>
+
+      <input type="hidden" id="editId" />
+
+      <div class="modal-preview-box" id="modalPreviewBox">
+        <div class="modal-preview-empty" id="modalPreviewEmpty">Preview</div>
+        <img id="modalPreview" src="" alt="preview" />
+      </div>
+
+      <div class="fields-row">
+        <div class="field"><label>Nome</label><input type="text" id="editName" required /></div>
+        <div class="field"><label>Categoria</label><input type="text" id="editCategory" /></div>
+      </div>
+      <div class="field"><label>URL da imagem</label><input type="url" id="editImage" oninput="prevImgModal(this.value)" /></div>
+      <div class="field"><label>Descrição</label><textarea id="editDescription"></textarea></div>
+      
+      <div class="field">
+        <label>Badge</label>
+        <select id="editBadge">
+          <option value="">Nenhum</option>
+          <option>🌿 Orgânico</option>
+          <option>⭐ Destaque</option>
+          <option>✨ Novidade</option>
+          <option>🔥 Mais Vendido</option>
+        </select>
+      </div>
+
+      <div class="fields-row">
+        <div class="field"><label>🛍️ Shopee</label><input type="url" id="editShopee" /></div>
+        <div class="field"><label>🛒 Mercado Livre</label><input type="url" id="editML" /></div>
+      </div>
+      <div class="fields-row">
+        <div class="field"><label>📦 Amazon</label><input type="url" id="editAmazon" /></div>
+        <div class="field"><label>🎵 TikTok</label><input type="url" id="editTiktok" /></div>
+      </div>
+
+      <button class="save-btn" id="saveBtn" onclick="salvarEdicao()">Salvar Alterações</button>
+      <div id="editStatus" class="status"></div>
+    </div>
+  </div>
+
+  <script>
     function logout() {
       localStorage.removeItem('gb_token');
       window.location.href = '/entrar.html';
     }
 
-    let allProducts = [];
-    let editMode = false;
-    let currentEditId = null;
-
-    /* Lógica de Preview */
-    function handlePreview(url) {
-      const img = document.getElementById('pImg');
-      const txt = document.getElementById('pTxt');
-      if(url && url.startsWith('http')) {
-        img.src = url; img.style.display = 'block'; txt.style.display = 'none';
-      } else {
-        img.style.display = 'none'; txt.style.display = 'block';
-      }
+    function prevImg(url) {
+      const img = document.getElementById('preview');
+      const empty = document.getElementById('previewEmpty');
+      if(url && url.length > 5) { img.src = url; img.style.display = 'block'; empty.style.display = 'none'; } 
+      else { img.style.display = 'none'; empty.style.display = 'flex'; }
     }
 
-    async function load() {
+    function prevImgModal(url) {
+      const img = document.getElementById('modalPreview');
+      const empty = document.getElementById('modalPreviewEmpty');
+      if(url && url.length > 5) { img.src = url; img.style.display = 'block'; empty.style.display = 'none'; } 
+      else { img.style.display = 'none'; empty.style.display = 'flex'; }
+    }
+
+    let todosProdutos = [];
+
+    async function carregarProdutos() {
       try {
         const res = await fetch('/api/products');
-        allProducts = await res.json();
-        const grid = document.getElementById('grid');
-        grid.innerHTML = allProducts.map(p => `
-          <div class="p-card">
-            <img src="${p.image}" style="width:100%; height:120px; object-fit:contain; border-radius:12px;">
-            <div class="p-info">
-              <h3>${p.name}</h3>
-              <div style="display:flex; gap:5px; margin-top:10px;">
-                <button onclick="prepararEdicao('${p.id}')" style="flex:1; padding:6px; border:none; border-radius:8px; background:var(--gb-menta); color:var(--gb-floresta); font-size:11px; font-weight:700; cursor:pointer;">Editar</button>
-                <button onclick="deleteP('${p.id}')" style="padding:6px; border:none; border-radius:8px; background:var(--gb-palido); color:var(--gb-petala); font-size:11px; font-weight:700; cursor:pointer;">Excluir</button>
+        todosProdutos = await res.json();
+        criarCategorias();
+        renderizarProdutos(todosProdutos);
+      } catch(e) { console.error(e); }
+    }
+
+    function criarCategorias() {
+      const container = document.getElementById('categories');
+      const cats = ['Todos', ...new Set(todosProdutos.map(p=>p.category).filter(Boolean))];
+      container.innerHTML = cats.map((cat,i) => `<button class="${i===0?'active':''}" onclick="filtrarCategoria('${cat}',this)">${cat}</button>`).join('');
+    }
+
+    function filtrarCategoria(cat, btn) {
+      document.querySelectorAll('.categories button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const lista = cat==='Todos' ? todosProdutos : todosProdutos.filter(p=>p.category===cat);
+      renderizarProdutos(lista);
+    }
+
+    function buscarProdutos() {
+      const val = document.getElementById('searchInput').value.toLowerCase();
+      const catAtiva = document.querySelector('.categories button.active');
+      const cat = catAtiva ? catAtiva.textContent.trim() : 'Todos';
+      const base = cat==='Todos' ? todosProdutos : todosProdutos.filter(p=>p.category===cat);
+      renderizarProdutos(base.filter(p=>p.name.toLowerCase().includes(val)));
+    }
+
+    function renderizarProdutos(produtos) {
+      document.getElementById('productsCount').textContent = `${produtos.length} itens`;
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '';
+      if(!produtos.length) { grid.innerHTML = '<div class="empty-state">Nenhum produto encontrado.</div>'; return; }
+      
+      produtos.forEach(p => {
+        grid.innerHTML += `
+          <div class="product-card">
+            <div class="product-image">
+              ${p.badge ? `<div class="badge">${p.badge}</div>` : ''}
+              <img src="${p.image}" onerror="this.src='https://placehold.co/200x200?text=Sem+Imagem'" />
+            </div>
+            <div class="product-content">
+              <div class="product-name">${p.name}</div>
+              <div class="actions">
+                <button class="edit-btn" onclick="abrirModal('${p.id}')">Editar</button>
+                <button class="delete-btn" onclick="deletarProduto('${p.id}')">Excluir</button>
               </div>
             </div>
-          </div>
-        `).join('');
-      } catch (err) { console.error(err); }
+          </div>`;
+      });
     }
 
-    function prepararEdicao(id) {
-      const p = allProducts.find(item => item.id === id);
+    function abrirModal(id) {
+      const p = todosProdutos.find(item => String(item.id) === String(id));
       if(!p) return;
-      editMode = true;
-      currentEditId = id;
-      document.getElementById('formTitle').innerText = "✏️ Editando Conteúdo";
-      document.getElementById('saveBtn').innerText = "Salvar Alterações";
-      document.getElementById('cancelBtn').style.display = "block";
+
+      document.getElementById('editId').value = p.id;
+      document.getElementById('editName').value = p.name || '';
+      document.getElementById('editCategory').value = p.category || '';
+      document.getElementById('editImage').value = p.image || '';
+      document.getElementById('editDescription').value = p.description || '';
+      document.getElementById('editBadge').value = p.badge || '';
+      document.getElementById('editShopee').value = p.shopee_link || '';
+      document.getElementById('editML').value = p.mercadolivre_link || '';
+      document.getElementById('editAmazon').value = p.amazon_link || '';
+      document.getElementById('editTiktok').value = p.tiktok_link || '';
       
-      document.getElementById('name').value = p.name || '';
-      document.getElementById('category').value = p.category || '';
-      document.getElementById('image').value = p.image || '';
-      document.getElementById('description').value = p.description || '';
-      document.getElementById('badge').value = p.badge || '';
-      document.getElementById('shopee_link').value = p.shopee_link || '';
-      document.getElementById('mercadolivre_link').value = p.mercadolivre_link || '';
-      document.getElementById('amazon_link').value = p.amazon_link || '';
-      document.getElementById('tiktok_link').value = p.tiktok_link || '';
-      
-      handlePreview(p.image);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      prevImgModal(p.image || '');
+      document.getElementById('editStatus').style.display = 'none';
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
 
-    function resetForm() {
-      editMode = false;
-      currentEditId = null;
-      document.getElementById('productForm').reset();
-      document.getElementById('formTitle').innerText = "Novo Conteúdo";
-      document.getElementById('saveBtn').innerText = "Publicar Conteúdo";
-      document.getElementById('cancelBtn').style.display = "none";
-      handlePreview('');
+    function fecharModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
     }
 
-    document.getElementById('productForm').onsubmit = async (e) => {
+    function fecharModalClick(e) { if(e.target === document.getElementById('modalOverlay')) fecharModal(); }
+
+    async function salvarEdicao() {
+      const btn = document.getElementById('saveBtn');
+      const status = document.getElementById('editStatus');
+      btn.textContent = 'Salvando...'; btn.disabled = true;
+
+      const data = {
+        id: document.getElementById('editId').value,
+        name: document.getElementById('editName').value,
+        image: document.getElementById('editImage').value,
+        description: document.getElementById('editDescription').value,
+        category: document.getElementById('editCategory').value,
+        badge: document.getElementById('editBadge').value,
+        shopee_link: document.getElementById('editShopee').value,
+        mercadolivre_link: document.getElementById('editML').value,
+        amazon_link: document.getElementById('editAmazon').value,
+        tiktok_link: document.getElementById('editTiktok').value,
+      };
+
+      try {
+        const res = await fetch('/api/update-products', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+        if(res.ok) {
+          status.style.display = 'block'; status.className = 'status success'; status.textContent = '✅ Atualizado!';
+          carregarProdutos();
+          setTimeout(fecharModal, 1200);
+        } else throw new Error();
+      } catch(e) {
+        status.style.display = 'block'; status.className = 'status error'; status.textContent = '❌ Erro ao salvar.';
+      } finally { btn.textContent = 'Salvar Alterações'; btn.disabled = false; }
+    }
+
+    document.getElementById('productForm').addEventListener('submit', async(e) => {
       e.preventDefault();
-      const payload = {
-        name: document.getElementById('name').value,
-        category: document.getElementById('category').value,
-        image: document.getElementById('image').value,
-        description: document.getElementById('description').value,
-        badge: document.getElementById('badge').value,
-        shopee_link: document.getElementById('shopee_link').value,
-        mercadolivre_link: document.getElementById('mercadolivre_link').value,
-        amazon_link: document.getElementById('amazon_link').value,
+      const btn = document.getElementById('submitBtn');
+      const status = document.getElementById('status');
+      btn.textContent = 'Processando...'; btn.disabled = true;
+
+      const data = {
+        name: document.getElementById('name').value, image: document.getElementById('image').value,
+        description: document.getElementById('description').value, category: document.getElementById('category').value,
+        badge: document.getElementById('badge').value, shopee_link: document.getElementById('shopee_link').value,
+        mercadolivre_link: document.getElementById('mercadolivre_link').value, amazon_link: document.getElementById('amazon_link').value,
         tiktok_link: document.getElementById('tiktok_link').value
       };
-      if(editMode) payload.id = currentEditId;
-      await fetch('/api/update-products', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-      });
-      resetForm();
-      load();
-    };
 
-    async function deleteP(id) {
-      if(confirm('Excluir?')) {
-        await fetch('/api/delete-product', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({id})
-        });
-        load();
+      try {
+        const res = await fetch('/api/update-products', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+        if(res.ok) {
+          status.style.display = 'block'; status.className = 'status success'; status.textContent = '✅ Publicado!';
+          document.getElementById('productForm').reset(); prevImg('');
+          carregarProdutos();
+          setTimeout(() => status.style.display='none', 3000);
+        } else throw new Error();
+      } catch(e) {
+        status.style.display = 'block'; status.className = 'status error'; status.textContent = '❌ Erro.';
+      } finally { btn.textContent = 'Publicar Conteúdo'; btn.disabled = false; }
+    });
+
+    async function deletarProduto(id) {
+      if(confirm('Excluir este produto?')) {
+        await fetch('/api/delete-product', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({id}) });
+        carregarProdutos();
       }
     }
 
-    load();
+    carregarProdutos();
   </script>
 </body>
 </html>
