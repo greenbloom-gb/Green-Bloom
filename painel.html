@@ -3,374 +3,238 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Green Bloom • Painel Editorial</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <title>Green Bloom • Gestor de Catálogo</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
-    :root{
-      --sage-dark:#4A6741;
-      --sage:#7A9E7E;
-      --sage-light:#A8C5A0;
-
-      --rose-deep:#A85970;
-      --rose:#D4879A;
-      --rose-light:#EDB8C4;
-
-      --cream:#FAF6F1;
-      --card:#FFFFFF;
-
-      --text-dark:#2C2C2C;
-      --text-mid:#6B6B6B;
-
-      --border:rgba(168,89,112,0.12);
+    :root {
+      /* Palette Green Bloom - Sofisticada e Natural */
+      --gb-deep: #1B3022;      /* Verde Profundo */
+      --gb-leaf: #2D5A27;      /* Verde Folha */
+      --gb-sage: #8DAA91;      /* Verde Sálvia */
+      --gb-cream: #FAF9F6;     /* Fundo Creme */
+      --gb-accent: #C5D1C3;    /* Detalhes */
+      --gb-white: #FFFFFF;
+      --gb-text: #2C332E;
+      --gb-error: #9E2A2B;
     }
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'DM Sans',sans-serif;
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: var(--gb-cream); color: var(--gb-text); padding: 20px 16px 80px; }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--gb-deep);
+      padding: 24px;
+      border-radius: 24px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(27, 48, 34, 0.15);
     }
-
-    body{
-      background:var(--cream);
-      color:var(--text-dark);
-      padding:18px 14px 60px;
+    .header h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+    .header p { font-size: 13px; opacity: 0.8; }
+    .logout-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white; padding: 8px 16px; border-radius: 12px;
+      cursor: pointer; font-size: 12px; font-weight: 700; transition: 0.3s;
     }
+    .logout-btn:hover { background: white; color: var(--gb-deep); }
 
-    /* fundo suave editorial */
-    body::before{
-      content:'';
-      position:fixed;
-      top:-120px;
-      right:-120px;
-      width:360px;
-      height:360px;
-      background:radial-gradient(circle, rgba(237,184,196,.18), transparent 70%);
-      z-index:0;
+    /* ── CARDS ── */
+    .card {
+      background: var(--gb-white);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      margin-bottom: 24px;
     }
+    .card-title { font-size: 18px; font-weight: 800; color: var(--gb-deep); margin-bottom: 18px; }
 
-    body::after{
-      content:'';
-      position:fixed;
-      bottom:-120px;
-      left:-120px;
-      width:320px;
-      height:320px;
-      background:radial-gradient(circle, rgba(168,197,160,.18), transparent 70%);
-      z-index:0;
+    /* ── FORM ── */
+    .field { margin-bottom: 14px; }
+    .field label { display: block; margin-bottom: 5px; font-size: 12px; font-weight: 700; color: var(--gb-leaf); }
+    .field input, .field textarea, .field select {
+      width: 100%; border: 1.5px solid #E9EDEA; background: #F9FBF9;
+      border-radius: 12px; padding: 12px; font-size: 14px; transition: 0.3s;
     }
+    .field input:focus { border-color: var(--gb-leaf); outline: none; background: white; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-    /* HERO */
-    .hero{
-      position:relative;
-      background:linear-gradient(135deg,var(--sage-dark),var(--sage));
-      padding:22px;
-      border-radius:24px;
-      color:white;
-      box-shadow:0 18px 40px rgba(74,103,65,.25);
-      overflow:hidden;
+    /* ── PREVIEW ── */
+    .img-preview {
+      width: 100%; height: 140px; background: #F0F4F1; border: 2px dashed var(--gb-accent);
+      border-radius: 16px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
+    .img-preview img { max-height: 100%; max-width: 100%; object-fit: contain; display: none; }
 
-    .hero::before{
-      content:'';
-      position:absolute;
-      top:-40px;
-      right:-40px;
-      width:160px;
-      height:160px;
-      background:rgba(237,184,196,.15);
-      border-radius:50%;
+    .btn-save {
+      width: 100%; background: var(--gb-leaf); color: white; border: none;
+      padding: 16px; border-radius: 14px; font-size: 15px; font-weight: 800;
+      cursor: pointer; transition: 0.3s; margin-top: 10px;
     }
+    .btn-save:hover { background: var(--gb-deep); transform: translateY(-2px); }
 
-    .hero h1{
-      font-family:'Cormorant Garamond',serif;
-      font-size:24px;
-      font-weight:300;
+    /* ── GRID ── */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .p-card { background: white; border-radius: 20px; padding: 10px; border: 1px solid #F0F4F1; transition: 0.3s; }
+    .p-card img { width: 100%; height: 110px; object-fit: contain; border-radius: 12px; background: #F9FBF9; }
+    .p-info h3 { font-size: 13px; font-weight: 800; margin-top: 8px; color: var(--gb-deep); }
+    .p-links-count { font-size: 10px; color: var(--gb-sage); font-weight: 600; }
+    
+    .status { padding: 12px; border-radius: 12px; text-align: center; display: none; margin-top: 10px; font-size: 13px; font-weight: 700; }
+    .success { background: #E8F5E9; color: #2E7D32; }
+    .error { background: #FFEBEE; color: #C62828; }
+
+    /* ── MODAL ── */
+    .modal {
+      position: fixed; inset: 0; background: rgba(27, 48, 34, 0.7);
+      backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 999; padding: 20px;
     }
-
-    .hero p{
-      font-size:13px;
-      opacity:.85;
-      margin-top:4px;
-    }
-
-    .logout-btn{
-      margin-top:14px;
-      background:rgba(255,255,255,.15);
-      border:none;
-      color:white;
-      padding:10px 14px;
-      border-radius:12px;
-      font-weight:600;
-      cursor:pointer;
-    }
-
-    /* FORM */
-    .form-card{
-      margin-top:18px;
-      background:white;
-      padding:18px;
-      border-radius:20px;
-      box-shadow:0 10px 30px rgba(0,0,0,.05);
-      border:1px solid var(--border);
-    }
-
-    .form-title{
-      font-family:'Cormorant Garamond',serif;
-      font-size:20px;
-      color:var(--sage-dark);
-      margin-bottom:14px;
-    }
-
-    /* INPUTS */
-    .field{ margin-bottom:12px; }
-
-    .field label{
-      font-size:12px;
-      font-weight:600;
-      color:var(--text-mid);
-    }
-
-    .field input,
-    .field textarea,
-    .field select{
-      width:100%;
-      padding:12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:#fff;
-      outline:none;
-      font-size:13px;
-      transition:.2s;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus{
-      border-color:var(--rose);
-      box-shadow:0 0 0 3px rgba(212,135,154,.15);
-    }
-
-    .submit-btn{
-      width:100%;
-      border:none;
-      padding:14px;
-      border-radius:14px;
-      background:linear-gradient(135deg,var(--rose),var(--rose-deep));
-      color:white;
-      font-weight:700;
-      cursor:pointer;
-      box-shadow:0 10px 20px rgba(168,89,112,.25);
-    }
-
-    /* PRODUTOS */
-    .products-header{
-      display:flex;
-      justify-content:space-between;
-      margin-top:20px;
-      margin-bottom:10px;
-    }
-
-    .products-title{
-      font-family:'Cormorant Garamond',serif;
-      font-size:20px;
-    }
-
-    .products-count{
-      font-size:12px;
-      color:var(--text-mid);
-    }
-
-    /* GRID */
-    .products-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-    }
-
-    .product-card{
-      background:white;
-      border-radius:18px;
-      overflow:hidden;
-      box-shadow:0 10px 20px rgba(0,0,0,.05);
-      border:1px solid var(--border);
-    }
-
-    .product-image{
-      background:var(--cream);
-      padding:12px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
-
-    .product-image img{
-      width:100%;
-      height:100px;
-      object-fit:contain;
-    }
-
-    .product-content{
-      padding:10px;
-    }
-
-    .category{
-      font-size:10px;
-      background:rgba(168,197,160,.25);
-      padding:3px 8px;
-      border-radius:999px;
-      display:inline-block;
-      margin-bottom:6px;
-      color:var(--sage-dark);
-    }
-
-    .product-name{
-      font-family:'Cormorant Garamond',serif;
-      font-size:14px;
-      font-weight:600;
-    }
-
-    .product-description{
-      font-size:11px;
-      color:var(--text-mid);
-      margin-top:4px;
-    }
-
-    .actions{
-      margin-top:10px;
-      display:flex;
-      gap:6px;
-    }
-
-    .edit-btn{
-      flex:1;
-      padding:8px;
-      border:none;
-      border-radius:10px;
-      background:var(--sage);
-      color:white;
-      font-size:11px;
-      font-weight:600;
-    }
-
-    .delete-btn{
-      flex:1;
-      padding:8px;
-      border:none;
-      border-radius:10px;
-      background:#f8e6ea;
-      color:var(--rose-deep);
-      font-size:11px;
-      font-weight:600;
-    }
-
+    .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 24px; max-height: 90vh; overflow-y: auto; }
   </style>
 </head>
-
 <body>
 
-  <section class="hero">
-    <h1>Green Bloom</h1>
-    <p>Painel editorial de conteúdo</p>
+  <header class="header">
+    <div>
+      <h1>Green Bloom</h1>
+      <p>Gestão de Produtos e Links</p>
+    </div>
     <button class="logout-btn" onclick="logout()">Sair</button>
-  </section>
+  </header>
 
-  <section class="form-card">
-    <div class="form-title">Novo conteúdo</div>
-
+  <section class="card">
+    <h2 class="card-title">🌿 Novo Produto</h2>
     <form id="productForm">
-
-      <div class="field">
-        <label>Nome</label>
-        <input type="text" id="name" required />
+      <div class="img-preview" id="pBox"><span id="pTxt">Preview</span><img id="pImg"></div>
+      
+      <div class="row">
+        <div class="field"><label>Nome</label><input type="text" id="name" required></div>
+        <div class="field"><label>Categoria</label><input type="text" id="category"></div>
       </div>
 
-      <div class="field">
-        <label>Imagem</label>
-        <input type="url" id="image" required />
-      </div>
+      <div class="field"><label>URL da Imagem</label><input type="url" id="image" required oninput="handlePreview(this.value, 'pImg', 'pTxt')"></div>
+      <div class="field"><label>Descrição</label><textarea id="description" rows="2"></textarea></div>
 
       <div class="field">
-        <label>Categoria</label>
-        <input type="text" id="category" />
+        <label>Badge</label>
+        <select id="badge">
+          <option value="">Nenhum</option>
+          <option value="🌿 Orgânico">🌿 Orgânico</option>
+          <option value="⭐ Destaque">⭐ Destaque</option>
+          <option value="✨ Novidade">✨ Novidade</option>
+        </select>
       </div>
 
-      <div class="field">
-        <label>Descrição</label>
-        <textarea id="description"></textarea>
+      <div class="row">
+        <div class="field"><label>🛍️ Shopee</label><input type="url" id="shopee_link"></div>
+        <div class="field"><label>🛒 Mercado Livre</label><input type="url" id="mercadolivre_link"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>📦 Amazon</label><input type="url" id="amazon_link"></div>
+        <div class="field"><label>🎵 TikTok</label><input type="url" id="tiktok_link"></div>
       </div>
 
-      <button class="submit-btn">Publicar</button>
+      <button type="submit" class="btn-save" id="saveBtn">Cadastrar Produto</button>
+      <div id="status" class="status"></div>
     </form>
   </section>
 
-  <div class="products-header">
-    <div class="products-title">Conteúdos</div>
-    <div class="products-count" id="productsCount">0 itens</div>
+  <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center;">
+    <h2 style="font-weight:800; color:var(--gb-deep)">Estoque Digital</h2>
+    <span id="counter" style="background:var(--gb-accent); padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700;">0 itens</span>
   </div>
 
-  <div class="products-grid" id="productsGrid"></div>
+  <div class="grid" id="grid"></div>
 
-<script>
-let todosProdutos = [];
+  <script>
+    function handlePreview(url, imgId, txtId) {
+      const img = document.getElementById(imgId);
+      const txt = document.getElementById(txtId);
+      if(url) { img.src = url; img.style.display = 'block'; txt.style.display = 'none'; }
+      else { img.style.display = 'none'; txt.style.display = 'block'; }
+    }
 
-async function carregarProdutos(){
-  const res = await fetch('/api/products');
-  todosProdutos = await res.json();
-  renderizar(todosProdutos);
-}
+    function logout() { localStorage.removeItem('adminAuth'); window.location.href = '/entrar.html'; }
 
-function renderizar(produtos){
-  document.getElementById('productsCount').innerText = produtos.length + " itens";
+    let allProducts = [];
 
-  const grid = document.getElementById('productsGrid');
-  grid.innerHTML = produtos.map(p => `
-    <div class="product-card">
-      <div class="product-image">
-        <img src="${p.image}" />
-      </div>
-      <div class="product-content">
-        <div class="category">${p.category || ''}</div>
-        <div class="product-name">${p.name}</div>
-        <div class="product-description">${p.description || ''}</div>
-
-        <div class="actions">
-          <button class="edit-btn">Editar</button>
-          <button class="delete-btn">Excluir</button>
+    async function load() {
+      const res = await fetch('/api/products');
+      allProducts = await res.json();
+      const grid = document.getElementById('grid');
+      document.getElementById('counter').innerText = `${allProducts.length} itens`;
+      grid.innerHTML = allProducts.map(p => `
+        <div class="p-card">
+          <img src="${p.image}">
+          <div class="p-info">
+            <h3>${p.name}</h3>
+            <div style="display:flex; gap:5px; margin-top:8px;">
+              <button onclick="deleteP('${p.id}')" style="flex:1; padding:6px; border:none; border-radius:8px; background:#FFF0F0; color:var(--gb-error); font-size:10px; font-weight:700; cursor:pointer;">Excluir</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  `).join('');
-}
+      `).join('');
+    }
 
-document.getElementById('productForm').addEventListener('submit', async e=>{
-  e.preventDefault();
+    document.getElementById('productForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('saveBtn');
+      const status = document.getElementById('status');
+      btn.innerText = 'Processando...';
+      
+      const payload = {
+        name: document.getElementById('name').value,
+        category: document.getElementById('category').value,
+        image: document.getElementById('image').value,
+        description: document.getElementById('description').value,
+        badge: document.getElementById('badge').value,
+        shopee_link: document.getElementById('shopee_link').value,
+        mercadolivre_link: document.getElementById('mercadolivre_link').value,
+        amazon_link: document.getElementById('amazon_link').value,
+        tiktok_link: document.getElementById('tiktok_link').value
+      };
 
-  await fetch('/api/update-products',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      name:document.getElementById('name').value,
-      image:document.getElementById('image').value,
-      category:document.getElementById('category').value,
-      description:document.getElementById('description').value
-    })
-  });
+      try {
+        const r = await fetch('/api/update-products', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        });
+        if(r.ok) {
+          status.innerText = "✅ Salvo com sucesso!";
+          status.className = "status success";
+          status.style.display = "block";
+          document.getElementById('productForm').reset();
+          handlePreview('', 'pImg', 'pTxt');
+          load();
+        }
+      } catch (err) {
+        status.innerText = "❌ Erro ao salvar.";
+        status.className = "status error";
+        status.style.display = "block";
+      } finally {
+        btn.innerText = 'Cadastrar Produto';
+        setTimeout(() => status.style.display = 'none', 3000);
+      }
+    };
 
-  carregarProdutos();
-  e.target.reset();
-});
+    async function deleteP(id) {
+      if(!confirm('Remover produto?')) return;
+      await fetch('/api/delete-product', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id})
+      });
+      load();
+    }
 
-function logout(){
-  localStorage.removeItem('adminAuth');
-  window.location.href='/entrar-farnutri.html';
-}
-
-carregarProdutos();
-</script>
-
+    load();
+  </script>
 </body>
 </html>
