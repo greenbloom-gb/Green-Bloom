@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green Bloom | Links Úteis</title>
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── MESMOS TOKENS DO SEU INDEX ─── */
+    :root {
+      --sage-dark:   #4A6741;
+      --sage:        #7A9E7E;
+      --sage-light:  #A8C5A0;
+      --sage-pale:   #D6E8D4;
+      --rose-deep:   #A85970;
+      --rose:        #D4879A;
+      --rose-light:  #EDB8C4;
+      --rose-pale:   #F7E4E9;
+      --cream:       #FAF6F1;
+      --text-dark:   #2C2C2C;
+      --text-mid:    #6B6B6B;
+    }
+
+    /* ─── RESET & BACKGROUND ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: var(--cream);
+      color: var(--text-dark);
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0 0 40px;
+      overflow-x: hidden;
+    }
+
+    /* Efeito de degradê sutil no topo simulando o print */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 320px;
+      background: linear-gradient(180deg, var(--rose-pale) 0%, transparent 100%);
+      z-index: 0;
+    }
+
+    /* ─── LAYOUT CONTAINER ─── */
+    .container {
+      width: 100%;
+      max-width: 480px; /* Largura perfeita para celular */
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: center;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── PROFILE ─── */
+    .avatar-ring {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, var(--rose-light), var(--rose-deep));
+      box-shadow: 0 8px 32px rgba(168,89,112,0.25);
+      margin-bottom: 20px;
+    }
+
+    .avatar-ring img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .notice-box {
+      background: rgba(168, 89, 112, 0.06);
+      border: 1px dashed var(--rose);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 11px;
+      color: var(--rose-deep);
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+
+    /* ─── LINKS (ESTILO BIO.SITE ATUALIZADO) ─── */
+    .links-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bio-link {
+      width: 100%;
+      background: white;
+      border: 1px solid rgba(168,89,112,0.12);
+      border-radius: 999px; /* Formato oval idêntico ao do print */
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-dark);
+      box-shadow: 0 4px 18px rgba(168,89,112,0.06);
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+
+    .bio-link:hover {
+      transform: translateY(-2px);
+      border-color: var(--rose);
+      box-shadow: 0 8px 24px rgba(168,89,112,0.12);
+    }
+
+    .bio-link:active {
+      transform: scale(0.98);
+    }
+
+    /* Mini foto redonda dentro do botão */
+    .link-thumb {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 16px;
+      border: 2px solid var(--rose-pale);
+    }
+
+    .link-text {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-top: 50px;
+      font-size: 12px;
+      color: var(--text-mid);
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    
+    <!-- Perfil (Puxando a mesma logo informada por você) -->
+    <div class="avatar-ring">
+      <img src="56047-removebg-preview.png" alt="Logo Green Bloom">
+    </div>
+
+    <h1>Green Bloom</h1>
+
+    <!-- Aviso anti-bloqueio visual -->
+    <div class="notice-box">
+      ✨ SE NÃO CONSEGUIR ABRIR, CLIQUE NOS 3 PONTINHOS NO CANTO SUPERIOR DIREITO DA TELA E SELECIONE "ABRIR NO NAVEGADOR".
+    </div>
+
+    <!-- Lista de Links -->
+    <div class="links-list">
+      
+      <!-- Link Principal para o seu Grupo de Ofertas -->
+      <!-- O 'data-url' é processado pelo script abaixo para evitar travas do Instagram -->
+      <a href="COLE_O_LINK_DO_SEU_GRUPO_AQUI" data-safe-redirect="true" class="bio-link">
+        <img src="56047-removebg-preview.png" class="link-thumb" alt="Grupo">
+        <span class="link-text">Produtos Indicados e Ofertas ✨🛍️</span>
+      </a>
+
+      <!-- Link para o Site Principal (Index) -->
+      <a href="index.html" class="bio-link">
+        <div class="link-thumb" style="background: var(--sage); display:flex; align-items:center; justify-content:center; border-radius:50%; font-size:20px;">🌿</div>
+        <span class="link-text">Visitar nosso Site Completo</span>
+      </a>
+
+    </div>
+
+    <footer>
+      © Green Bloom 2026
+    </footer>
+  </div>
+
+  <!-- ─── SCRIPT ANTI-TRAVAMENTO DO INSTAGRAM ─── -->
+  <script>
+    document.querySelectorAll('[data-safe-redirect="true"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const targetUrl = this.getAttribute('href');
+        
+        // Detecta se está abrindo pelo navegador interno do Instagram/Facebook
+        const isInstagram = navigator.userAgent.includes("Instagram") || navigator.userAgent.includes("FBAN") || navigator.userAgent.includes("FBAV");
+        
+        if (isInstagram) {
+          e.preventDefault();
+          
+          // Truque técnico: Força o Android ou iOS a sugerir o aplicativo externo nativo (como WhatsApp/Telegram ou Chrome)
+          if (navigator.userAgent.includes("Android")) {
+            window.location.href = 'intent://' + targetUrl.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+          } else {
+            // No iOS cria um redirecionamento temporário limpo que costuma quebrar o frame interno do app
+            const a = document.createElement('a');
+            a.href = targetUrl;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.click();
+          }
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
