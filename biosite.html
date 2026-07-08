@@ -334,6 +334,23 @@
 
     .copy-feedback.show { opacity: 1; }
 
+    /* ─── ACESSIBILIDADE: reduzir movimento para quem configurou isso no aparelho ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ─── ACESSIBILIDADE: foco visível para navegação por teclado/leitor de tela ─── */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--sage-dark);
+      outline-offset: 3px;
+    }
+
     /* ─── FOOTER (discreto, empurrado para o fim da tela) ─── */
     footer {
       width: 100%;
@@ -363,14 +380,16 @@
     footer .copyright {
       margin-top: 6px;
       font-size: 11px;
-      color: var(--text-light);
+      color: var(--text-mid);
     }
   </style>
 </head>
 
 <body>
 
-  <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">🌙</button>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema" aria-label="Alternar tema claro/escuro">
+    <span aria-hidden="true">🌙</span>
+  </button>
 
   <div class="container">
 
@@ -393,7 +412,7 @@
       <a href="https://chat.whatsapp.com/DcA75KOPcQGIXpNMdXqPSc"
          data-safe-redirect="true"
          data-group-url="https://chat.whatsapp.com/DcA75KOPcQGIXpNMdXqPSc"
-         class="cta-badge">🌷 Vagas abertas</a>
+         class="cta-badge"><span aria-hidden="true">🌷</span> Vagas abertas</a>
       <div class="link-row">
         <a href="https://chat.whatsapp.com/DcA75KOPcQGIXpNMdXqPSc"
            data-safe-redirect="true"
@@ -401,10 +420,10 @@
            class="bio-link bio-link-primary">
           <img src="56047-removebg-preview.png" class="link-thumb" alt="Grupo">
           <span class="link-text">Acessar Grupo VIP de Ofertas
-            <span class="link-sub">Entre agora e aproveite ✨</span>
+            <span class="link-sub">Entre agora e aproveite <span aria-hidden="true">✨</span></span>
           </span>
         </a>
-        <button type="button" class="copy-btn" data-copy-url="https://chat.whatsapp.com/DcA75KOPcQGIXpNMdXqPSc" aria-label="Copiar link">📋</button>
+        <button type="button" class="copy-btn" data-copy-url="https://chat.whatsapp.com/DcA75KOPcQGIXpNMdXqPSc" aria-label="Copiar link do grupo"><span aria-hidden="true">📋</span></button>
       </div>
 
     </div>
@@ -417,7 +436,7 @@
     <div class="copyright">© Green Bloom 2026 · Todos os direitos reservados</div>
   </footer>
 
-  <div class="copy-feedback" id="copyFeedback">Link copiado! Cole no navegador ✅</div>
+  <div class="copy-feedback" id="copyFeedback" role="status" aria-live="polite">Link copiado! Cole no navegador ✅</div>
 
   <!-- ─── SCRIPT ANTI-TRAVAMENTO DO INSTAGRAM ─── -->
   <script>
@@ -468,13 +487,13 @@
     function toggleTheme() {
       document.body.classList.toggle('dark');
       const isDark = document.body.classList.contains('dark');
-      document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
+      document.querySelector('.theme-toggle span').textContent = isDark ? '☀️' : '🌙';
       localStorage.setItem('gbDark', isDark);
     }
 
     if (localStorage.getItem('gbDark') === 'true') {
       document.body.classList.add('dark');
-      document.querySelector('.theme-toggle').textContent = '☀️';
+      document.querySelector('.theme-toggle span').textContent = '☀️';
     }
   </script>
 
