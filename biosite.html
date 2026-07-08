@@ -124,7 +124,7 @@
       padding: 4px;
       background: linear-gradient(135deg, var(--sage), var(--rose-deep));
       box-shadow: 0 8px 32px rgba(168,89,112,0.25);
-      margin-top: -40px;
+      margin-top: -50px;
       margin-bottom: 20px;
       animation: heroIn .6s ease both;
     }
@@ -356,22 +356,26 @@
     .hero-bg {
       width: 100%;
       max-width: 480px;
-      height: 230px;
+      height: 220px;
       background-image: url('fundobio.png');
       background-size: cover;
       background-position: center 22%;
-      border-radius: 0 0 50% 50% / 0 0 45px 45px;
       position: relative;
       z-index: 0;
       overflow: hidden;
     }
 
-    /* transição suave da foto para o fundo da página */
+    /* "morro" de fundo: elipse grande que sobe no centro e desce nas bordas */
     .hero-bg::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 55%, var(--cream) 100%);
+      left: 50%;
+      top: 150px;
+      width: 800px;
+      height: 700px;
+      background: var(--cream);
+      border-radius: 50%;
+      transform: translateX(-50%);
     }
 
     /* ─── BIO / DESCRIÇÃO ─── */
